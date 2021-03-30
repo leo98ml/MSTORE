@@ -1,8 +1,6 @@
 package com.piattaforme.MStore.service;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,11 +19,13 @@ public class ProdottoService {
 
 	@Autowired
 	private ProdottoRepo repo;
-
+	
+	public static String projectImagesDirectory = "C:/piattaforme/images/" ;
 	public void insert(Prodotto p, List<MultipartFile> listaFoto) {
 		try {
 			// mkdir for this product
-			String nomeCartella = "C:/piattaforme/images/" + p.getName().hashCode() + "" + System.currentTimeMillis();
+			String relativePath = p.getName().hashCode() + "" + System.currentTimeMillis();
+			String nomeCartella = projectImagesDirectory + relativePath ;
 			Path path = Paths.get(nomeCartella);
 			Files.createDirectories(path);
 			// save all files
@@ -37,12 +37,18 @@ public class ProdottoService {
 				bos.close();
 			}
 			// update p
-			p.setDirectoryImages(nomeCartella);
+			p.setDirectoryImages(relativePath);
 			// insert
 			repo.save(p);
 		} catch (Exception e) {
 
 		}
+	}
+	public List<Prodotto> getProdottiInOfferta() {
+		return repo.getProdottiInOfferta();
+	}
+	public List<Prodotto> getByType(String type) {
+		return repo.findAllByTipo(type);
 	}
 
 }

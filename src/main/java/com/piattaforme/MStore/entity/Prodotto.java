@@ -1,5 +1,7 @@
 package com.piattaforme.MStore.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,8 +9,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-//@Builder gives me problems with ObjectMapper
+import org.hibernate.annotations.NamedQuery;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
+@NamedQuery(name = "Prodotto.getProdottiInOfferta",
+query = "select u from Prodotto u where u.discount = true")
 public class Prodotto {
 	
 	@Id

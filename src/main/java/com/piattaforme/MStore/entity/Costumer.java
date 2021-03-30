@@ -8,8 +8,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Entity
 public class Costumer {
@@ -29,6 +33,8 @@ public class Costumer {
 	private String phone;
 	
 	private String password;
+	
+	private String token;
 	
 	@OneToMany(mappedBy="costumer")
 	private List<Fattura> fattura;
@@ -95,6 +101,14 @@ public class Costumer {
 
 	public void setFattura(List<Fattura> fattura) {
 		this.fattura = fattura;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	
