@@ -4,12 +4,15 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.NamedQuery;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +22,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
+@NamedQuery(name = "Fattura.getFattureByToken",
+query = "select f from Fattura f, Costumer c where c.token = ?1 and c.id = f.costumer")
 public class Fattura {
 
 	@Id
@@ -27,7 +32,7 @@ public class Fattura {
 
 	private Double prezzo;
 	
-	@OneToMany(mappedBy="fattura")
+	@OneToMany(mappedBy="fattura", fetch = FetchType.LAZY )
 	private List<Ordine> ordine;
 	
 	@ManyToOne

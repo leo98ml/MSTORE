@@ -50,5 +50,8 @@ public class ProdottoService {
 	public List<Prodotto> getByType(String type) {
 		return repo.findAllByTipo(type);
 	}
+	public Prodotto findById(Integer i) {
+		return repo.findById(i.longValue()).get();
+	}
 
 }

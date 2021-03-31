@@ -3,6 +3,7 @@ package com.piattaforme.MStore.entity;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,7 +37,7 @@ public class Costumer {
 	
 	private String token;
 	
-	@OneToMany(mappedBy="costumer")
+	@OneToMany(mappedBy="costumer",fetch = FetchType.LAZY)
 	private List<Fattura> fattura;
 
 	public Long getId() {

@@ -3,6 +3,7 @@ package com.piattaforme.MStore.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.HttpServletBean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.piattaforme.MStore.entity.Prodotto;
@@ -70,6 +70,20 @@ public class Store {
 		
 	}
 	
+	@GetMapping(value = "getItemsById", produces = {MediaType.APPLICATION_JSON_VALUE})
+	public List<Prodotto> getItemsById(@RequestParam List<Integer> id){
+		List<Prodotto> ret = new LinkedList<>();
+		for ( Integer i : id) {
+			try {
+				ret.add(service.findById(i));
+			}
+			catch(Exception e) {
+				System.err.print(e.getStackTrace());
+			}
+		}
+		return ret;
+		
+	}
 	
 	
 }

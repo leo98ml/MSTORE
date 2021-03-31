@@ -1,13 +1,9 @@
 package com.piattaforme.MStore.entity;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.NamedQuery;
 
@@ -42,20 +38,6 @@ public class Prodotto {
 	private Double price;
 	
 	private String tipo;
-	
-	@OneToOne
-	@JoinColumn(referencedColumnName ="id")
-	private Ordine ordine;
-	
-	
-	
-	public Ordine getOrdine() {
-		return ordine;
-	}
-
-	public void setOrdine(Ordine ordine) {
-		this.ordine = ordine;
-	}
 
 	public Long getId() {
 		return id;
