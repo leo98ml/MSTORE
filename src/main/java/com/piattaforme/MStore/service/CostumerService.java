@@ -96,6 +96,7 @@ public class CostumerService {
 		oggi.add(GregorianCalendar.DAY_OF_MONTH, 5);
 		fattura.setDataConsegna(oggi.getTime());
 		double prezzo = 0;
+		List<Ordine> listaOrdiniFattura = new LinkedList<>();
 		for ( Integer i : id) {
 			Prodotto p =prod.findById(i.longValue()).get();
 			prezzo += p.getPrice()-p.getPrice()/100*p.getDiscountPercentage();
@@ -109,6 +110,16 @@ public class CostumerService {
 					p.setNumRisorse(p.getNumRisorse()-num);
 					listaProdottiDaComprare.add(p);
 					done.add(i);
+					prod.save(p);
+					for (int k = 0 ; k < num ; k++) {
+						Ordine o = new Ordine();
+						o.setFattura(fattura);
+						o.setNomeProdotto(p.getName());
+						o.setPrezzo(p.getPrice());
+						o.setScontoPercentage(p.getDiscountPercentage());
+						listaOrdiniFattura.add(o);
+						ord.save(o);
+					}
 				}
 				catch(Exception e) {
 					throw new RuntimeException();
@@ -116,17 +127,6 @@ public class CostumerService {
 			}
 		}
 		fattura.setPrezzo(prezzo);
-		List<Ordine> listaOrdiniFattura = new LinkedList<>();
-		fattura.setOrdine(listaOrdiniFattura);
-		for (Prodotto p : listaProdottiDaComprare) {
-			Ordine o = new Ordine();
-			o.setFattura(fattura);
-			o.setNomeProdotto(p.getName());
-			o.setPrezzo(p.getPrice());
-			o.setScontoPercentage(p.getDiscountPercentage());
-			ord.save(o);
-			prod.save(p);
-		}
 		fattura.setOrdine(listaOrdiniFattura);
 		fat.save(fattura);
 		cliente.getFattura().add(fattura);
